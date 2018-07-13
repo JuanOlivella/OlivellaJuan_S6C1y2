@@ -15,9 +15,9 @@ using std::endl;
 
 int main(){
 
-  float C = pow(T/P,0.5);
+  float c = sqrt(T/P);
 
-  int nx = 100;
+  int nx = 300;
 
   float minx = 0.0;
 
@@ -29,11 +29,9 @@ int main(){
 
   x[0] = minx;
 
-  x[nx] = maxx; 
+  for (int a = 1; a < nx; a++){
 
-  for (int i = 1; i < nx; i++){
-
-    x[i] = x[i-1] + dx;
+    x[a] = x[a-1] + dx;
     
   }
 
@@ -42,32 +40,33 @@ int main(){
 
   float maxt = 200.0;
 
-  float dt = dx/(2.0*C);
+  float dt = (dx)/(2.0*c);
 
   int nt = (maxt - mint)/(dt); 
 
 
-  float u[nx];
+  float u_pasado[nx];
+  
+  u_pasado[0] = 0.0;
 
-  for (int i = 0; i < nx; i++){
+  u_pasado[nx-1] = 0.0;
 
-    u[i] = 5.0 - (5.0)*(x[i])*(1/L);
+  for (int b = 0; b < nx; b++){
 
-      if(x[i] <= 0.8*L){
+    u_pasado[b] = 5.0 - (5.0)*(x[b])*(1.0/L);
 
-        u[i] = (1.25)*(x[i])*(1/L);
+      if(x[b] <= 0.8*L){
+
+        u_pasado[b] = (1.25)*(x[b])*(1.0/L);
+
       }
-    
-    cout << x[i] << "  " << u[i] << endl;
+  cout << x[b] << "  " << u_pasado[b] << endl;
 
   }
 
 
-  float r = (dt*C)/(dx);
+  float r = pow ((dt*c)/(dx), 2);
 
-  u[0] = 0.0;
-
-  u[nx-1] = 0.0;
 
   float u_futuro[nx];
 
@@ -75,30 +74,17 @@ int main(){
 
   u_futuro[nx-1] = 0.0;
 
-  for (int i = 1; i < nx-1; i++){
-
-    u_futuro[i] = u[i] + (0.5)*(r)*(r)*(u[i+1]-2*u[i]-u[i-1]);
-
-
-
-  }
-
-
-  float u_pasado[nx];
-
-  for (int i = 0; i < nx; i++){
-
-    u_pasado[i] = u[i];
-
-
-  }  
-
 
   float u_presente[nx];
-  
-  for (int i = 0; i < nx; i++){
 
-    u_presente[i] = u_futuro[i];
+  u_presente[0] = 0.0;
+
+  u_presente[nx-1] = 0.0;
+
+
+  for (int q = 1; q < nx-1; q++){
+
+    u_presente[q] = u_pasado[q] + (r)*(u_pasado[q+1]-2.0*u_pasado[q]+u_pasado[q-1]);
 
   }
 
@@ -108,32 +94,27 @@ int main(){
 
     for(int i = 1; i < nx-1; i++){
 
-      u_futuro[i] = (r)*(r)*(u_presente[i+1] - 2*u_presente[i] + u_presente[i-1]) +2*u_presente[i]-u_pasado[i];
+      u_futuro[i] = (r)*(u_presente[i+1]-2.0*u_presente[i]+u_presente[i-1]) + 2.0*u_presente[i] - u_pasado[i];
 
 
     }  
 
-    for (int i = 0; i < nx; i++){
+    for (int k = 0; k < nx; k++){
 
-      u_pasado[i] = u_presente[i];
+      u_pasado[k] = u_presente[k];
 
-    }
+      u_presente[k] = u_futuro[k];
 
-    for (int i = 0; i < nx; i++){
+      if(j== 100){
 
-      u_presente[i] = u_futuro[i];
-
-      if(j==0){
-
-        cout << x[i] << "  " << u_presente[i] << endl;
+      cout << x[k] << "  " << u_presente[k] << endl;
 
       }
-
-
     }
-
 
 
   }
+
+    return 0;
   
 }

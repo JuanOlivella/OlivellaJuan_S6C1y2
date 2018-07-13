@@ -3,13 +3,13 @@ import matplotlib.pylab as plt
 
 datos1=np.genfromtxt("datosPlot.dat")
 
-x1 = datos1[0:99,0]
+x1 = datos1[0:299,0]
 
-y1 = datos1[0:99,1]
+y1 = datos1[0:299,1]
 
-x2 = datos1[100:198,0]
+x2 = datos1[300:598,0]
 
-y2 = datos1[100:198,1]
+y2 = datos1[300:598,1]
 
 plt.figure()
 plt.plot(x1,y1)

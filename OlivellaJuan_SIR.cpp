@@ -4,7 +4,6 @@
 #include <math.h>
 
 
-#define N 771.0
 #define B 0.0022
 #define G 0.45
 
@@ -82,7 +81,7 @@ int main(){
   cout << i[j] << "  " << t[j] << endl;
   }
 
-
+  return 0;
 
 }
 
