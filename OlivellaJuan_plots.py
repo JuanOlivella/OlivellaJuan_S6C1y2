@@ -25,5 +25,3 @@ plt.title("Funcion U(t,x) en el tiempo final")
 plt.xlabel("$posicion$")
 plt.ylabel("$U(t,x)$")
 plt.savefig("Funcion U en final.pdf")
-
-
